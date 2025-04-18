@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from .models import Pereval_Added, Status, Pereval_Images
-from .serializers import Pereval_ImagesSerializer, Pereval_AddedSerializer
+from .models import Pereval, User
+from .serializers import Pereval_AddedSerializer
 
 
 # Create your views here.
@@ -11,17 +11,15 @@ from .serializers import Pereval_ImagesSerializer, Pereval_AddedSerializer
 
 class submitData(APIView):
     def post(self, request):
-        data_new = Pereval_Added.objects.create(
-            raw_data=request.data,
-#           images=request.data['images'],
-            images=request.data,
-#           status=Status.get(title='new')
-            status=Status.objects.get(title='test'),
-        )
-        images_new = Pereval_Images.objects.create(
-            img=request.data
+        data_new = Pereval.objects.create(
+            beauty_title=request.data["beauty_title"],
+            title=request.data["title"],
+            other_titles=request.data["other_titles"],
+            connect=request.data["connect"],
+            user=User.objects.get(email=request.data["user"]["email"]),
+            status='NE'
+
         )
         return Response({
             'data_new': Pereval_AddedSerializer(data_new).data,
-            'images_new': Pereval_ImagesSerializer(images_new).data
         })

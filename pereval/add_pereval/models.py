@@ -1,29 +1,53 @@
 from django.db import models
 
 # Create your models here.
+new = 'NE'
+pending = 'PE'
+accepted = 'AC'
+rejected = 'RE'
+
+STAT = [
+    (new, 'новая'),
+    (pending, 'модератор взял в работу'),
+    (accepted, 'модерация прошла успешно'),
+    (rejected, 'модерация прошла, информация не принята'),
+]
 
 
-class Status(models.Model):
-    title = models.CharField(verbose_name='статус', max_length=30)
+class User(models.Model):
+    email = models.EmailField(primary_key=True)
+    fam = models.CharField(max_length=35)
+    name = models.CharField(max_length=35)
+    otc = models.CharField(max_length=35)
+    phone = models.CharField(max_length=35)
 
 
-class Pereval_Added(models.Model):
-    date_added = models.DateTimeField('время и дата', auto_now=True)
-    raw_data = models.JSONField(verbose_name='json данные')
-    images = models.JSONField(verbose_name='json изображение')
-    status = models.OneToOneField(Status, verbose_name='статус записи', on_delete=models.CASCADE)
+class Pereval(models.Model):
+    beauty_title = models.CharField(max_length=35)
+    title = models.CharField(max_length=35)
+    other_titles = models.CharField(max_length=35)
+    connect = models.TextField()
+    add_time = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    status = models.CharField(max_length=2, choices=STAT)
 
 
-class Pereval_Areas(models.Model):
-    id_parent = models.IntegerField(verbose_name='родительский id')
-    title = models.CharField(verbose_name='название облости', max_length=30)
+class Coords(models.Model):
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+    height = models.FloatField()
+    pereval = models.OneToOneField(Pereval, on_delete=models.CASCADE)
 
 
-class Pereval_Images(models.Model):
-    date_added = models.DateTimeField('время и дата', auto_now=True)
-    img = models.ImageField()
+class Level(models.Model):
+    winter = models.CharField(max_length=35)
+    summer = models.CharField(max_length=35)
+    autumn = models.CharField(max_length=35)
+    spring = models.CharField(max_length=35)
+    pereval = models.OneToOneField(Pereval, on_delete=models.CASCADE)
 
 
-class Spr_Activities_Types(models.Model):
-    title = models.CharField(verbose_name='название пути', max_length=30)
-
+class Images(models.Model):
+    data = models.URLField()
+    title = models.CharField(max_length=35)
+    pereval = models.ForeignKey(Pereval, related_name='images', on_delete=models.CASCADE)
