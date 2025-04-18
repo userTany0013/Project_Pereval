@@ -6,12 +6,14 @@ class Pereval_AddedSerializer(serializers.Serializer):
     title = serializers.CharField()
     other_titles = serializers.CharField()
     connect = serializers.CharField()
+
+
+
+class Pereval_InfoSerializer(serializers.Serializer):
+    beauty_title = serializers.CharField()
+    title = serializers.CharField()
+    other_titles = serializers.CharField()
+    connect = serializers.CharField()
+    add_time = serializers.DateTimeField()
     user = serializers.EmailField()
-
-
-
-
-#    date_added = serializers.DateTimeField()
-#    raw_data = serializers.JSONField()
-#    images = serializers.JSONField()
-#    status_id = serializers.ImageField()
+    status = serializers.CharField()
