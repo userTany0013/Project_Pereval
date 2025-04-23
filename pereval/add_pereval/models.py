@@ -29,20 +29,20 @@ class Coords(models.Model):
 
 
 class Level(models.Model):
-    winter = models.CharField(max_length=35)
-    summer = models.CharField(max_length=35)
-    autumn = models.CharField(max_length=35)
-    spring = models.CharField(max_length=35)
+    winter = models.CharField(max_length=35, null=True)
+    summer = models.CharField(max_length=35, null=True)
+    autumn = models.CharField(max_length=35, null=True)
+    spring = models.CharField(max_length=35, null=True)
 
 
 class Pereval(models.Model):
     beauty_title = models.CharField(max_length=35)
     title = models.CharField(max_length=35)
     other_titles = models.CharField(max_length=35)
-    connect = models.TextField()
+    connect = models.TextField(null=True)
     add_time = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    status = models.CharField(max_length=2, choices=STAT)
+    status = models.CharField(max_length=2, choices=STAT, default=new)
     coords = models.OneToOneField(Coords, on_delete=models.CASCADE)
     level = models.OneToOneField(Level, on_delete=models.CASCADE)
 
@@ -50,4 +50,4 @@ class Pereval(models.Model):
 class Images(models.Model):
     data = models.URLField()
     title = models.CharField(max_length=35)
-    pereval = models.ForeignKey(Pereval, on_delete=models.CASCADE)
+    pereval = models.ForeignKey(Pereval, on_delete=models.CASCADE, related_name='images')
