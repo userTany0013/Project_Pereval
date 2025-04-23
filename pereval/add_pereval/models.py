@@ -22,6 +22,19 @@ class User(models.Model):
     phone = models.CharField(max_length=35)
 
 
+class Coords(models.Model):
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+    height = models.FloatField()
+
+
+class Level(models.Model):
+    winter = models.CharField(max_length=35)
+    summer = models.CharField(max_length=35)
+    autumn = models.CharField(max_length=35)
+    spring = models.CharField(max_length=35)
+
+
 class Pereval(models.Model):
     beauty_title = models.CharField(max_length=35)
     title = models.CharField(max_length=35)
@@ -30,24 +43,11 @@ class Pereval(models.Model):
     add_time = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.CharField(max_length=2, choices=STAT)
-
-
-class Coords(models.Model):
-    latitude = models.FloatField()
-    longitude = models.FloatField()
-    height = models.FloatField()
-    pereval = models.OneToOneField(Pereval, on_delete=models.CASCADE)
-
-
-class Level(models.Model):
-    winter = models.CharField(max_length=35)
-    summer = models.CharField(max_length=35)
-    autumn = models.CharField(max_length=35)
-    spring = models.CharField(max_length=35)
-    pereval = models.OneToOneField(Pereval, on_delete=models.CASCADE)
+    coords = models.OneToOneField(Coords, on_delete=models.CASCADE)
+    level = models.OneToOneField(Level, on_delete=models.CASCADE)
 
 
 class Images(models.Model):
     data = models.URLField()
     title = models.CharField(max_length=35)
-    pereval = models.ForeignKey(Pereval, related_name='images', on_delete=models.CASCADE)
+    pereval = models.ForeignKey(Pereval, on_delete=models.CASCADE)

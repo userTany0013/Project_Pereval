@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from .models import Pereval, User
+from .models import Pereval, User, Images
 from .serializers import Pereval_AddedSerializer, Pereval_InfoSerializer
 
 
@@ -11,19 +11,9 @@ from .serializers import Pereval_AddedSerializer, Pereval_InfoSerializer
 
 class submitData(APIView):
     def post(self, request):
-        data_new = Pereval.objects.create(
-            beauty_title=request.data["beauty_title"],
-            title=request.data["title"],
-            other_titles=request.data["other_titles"],
-            connect=request.data["connect"],
-#            user=User.objects.get(email=request.data["user"]["email"]),
-            user=User.objects.get(email='qwerty@mail.ru'),
-            status='NE'
-
-        )
+        Pereval_AddedSerializer.create(self, validated_data=request)
         return Response({
-#            'data_new': Pereval_AddedSerializer(data_new).data,
-            '1': '2'
+            '': ''
         })
 
     def GET(self, request):
