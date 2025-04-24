@@ -18,10 +18,10 @@ class submitData(APIView):
             return Response({'status': 'success', 'data': serializer.data}, status=status.HTTP_201_CREATED)
         return Response({'status': 'error', 'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
-    def GET(self, request):
-        pereval_info = Pereval.objects.get(id=request.data['id'])
+    def GET(self, request, pk):
+        obj = Pereval.objects.get(id=pk)
         return Response({
-            'pereval_info': Pereval_InfoSerializer(pereval_info).data
+            'pereval_info': Pereval_InfoSerializer(obj).data
         })
 
     def PATCH(self, request, pk):
