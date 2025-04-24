@@ -57,6 +57,10 @@ class Pereval_AddedSerializer(serializers.ModelSerializer):
 
 
 class Pereval_InfoSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    coords = CoordsSerializer()
+    level = LevelSerializer()
+    images = ImagesSerializer(many=True)
     class Meta:
         model = Pereval
         fields = ['beauty_title', 'title', 'other_titles', 'connect', 'user', 'status', 'add_time', 'coords', 'level',
