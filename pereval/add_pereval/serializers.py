@@ -27,7 +27,7 @@ class ImagesSerializer(serializers.ModelSerializer):
         fields = ['data', 'title', ]
 
 
-class Pereval_AddedSerializer(serializers.ModelSerializer):
+class Pereval_Serializer(serializers.ModelSerializer):
     user = UserSerializer()
     coords = CoordsSerializer()
     level = LevelSerializer()
