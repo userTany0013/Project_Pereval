@@ -25,11 +25,14 @@ class submitData(APIView):
 
     def patch(self, request, pk):
         pereval_obj = Pereval.objects.get(id=pk)
-        serializer = Pereval_UpdateSerializer(pereval_obj, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response()
-        return Response()
+        if pereval_obj.status == 'NE':
+            serializer = Pereval_UpdateSerializer(pereval_obj, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({'state': '1', 'message': 'обновлено успешно'})
+            return Response({'state': '0', 'message': 'форма не валидна'})
+        else:
+            return Response({'state': '0', 'message': 'статья принята модератором, обновление запрещено'})
 
 
 class submitData_filter(APIView):
